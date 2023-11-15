@@ -15,11 +15,9 @@ export default function reducer(state, { type, payload }) {
         data: payload,
       };
     case "GET COUNTRY DETAILS":
-      console.log(state.data);
       const country = state.data.find((country) => (
         country.name.common.toLowerCase() === payload.toLowerCase()
       ))
-      console.log(country);
       return {
         ...state,
         countryDetails: country || "not found",

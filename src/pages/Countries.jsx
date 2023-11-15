@@ -3,23 +3,15 @@ import SelectRegion from "../components/SelectRegion";
 import Country from "../components/Country";
 import { useAppData } from "../AppProvider";
 import loadingGif from "../assets/Rolling-1s-197px (1).gif";
-import useFetchData from "../useFetchData";
-import { useEffect } from "react";
+
 
 const Countries = () => {
-  const url = "https://restcountries.com/v3.1/all";
-  const fetchData = useFetchData();
-
-  useEffect(() => {
-    fetchData(url);
-  }, []);
-
   const {
     state: { data, loading },
   } = useAppData();
 
   return (
-    <main className="max-w-[1700px] mx-auto">
+    <main className="max-w-[1700px] mx-auto pb-16">
       <div className="mt-8 md:flex md:mx-[5%] md:justify-between">
         <SearchBar />
         <SelectRegion />

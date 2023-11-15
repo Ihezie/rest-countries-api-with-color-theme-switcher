@@ -12,12 +12,13 @@ const CountryDetails = () => {
     state: { countryDetails, data, loading },
     dispatch,
   } = useAppData();
-  const url = "https://restcountries.com/v3.1/all";
-  const fetchData = useFetchData();
+  // const url = "https://restcountries.com/v3.1/all";
+  // const fetchData = useFetchData();
 
-  useEffect(() => {
-    fetchData(url);
-  }, []);
+  // useEffect(() => {
+  //   fetchData(url);
+  // }, []);
+  console.log(useAppData());
 
   useEffect(() => {
     if (!loading) {
@@ -37,7 +38,9 @@ const CountryDetails = () => {
   if (countryDetails === "not found") {
     return (
       <main className="mt-32 px-[8%] uppercase pb-16 sm:px-[12%] lg:px-[5%] max-w-[1700px] mx-auto text-center">
-        <h1 className="font-extrabold text-2xl dark:text-white">Oops, country not found</h1>
+        <h1 className="font-extrabold text-2xl dark:text-white">
+          Oops, country not found
+        </h1>
         <Link to="/" className="text-[16px] details-btn mt-8 inline-block">
           Back to home
         </Link>
@@ -61,7 +64,7 @@ const CountryDetails = () => {
   return (
     <main className="mt-12 px-[8%] text-[16px] pb-16 sm:px-[12%] lg:px-[5%] max-w-[1700px] mx-auto">
       <button className="details-btn mb-16 w-28">
-        <Link to="/">
+        <Link to="/" className="w-full h-full inline-block">
           <FontAwesomeIcon
             icon={faArrowLeftLong}
             className="dark:white-icon mr-4"
@@ -116,14 +119,14 @@ const CountryDetails = () => {
             Border Countries:
           </h2>
           <ul className="flex flex-wrap gap-3 xl:inline-flex">
-            {borders.map((border, index) => {
+            {borders?.map((border, index) => {
               const borderCountry = data.find(
                 (country) => country.cca3 === border
               );
               return (
                 <li key={index}>
                   <button className="details-btn">
-                    <Link to={`/${borderCountry.name.common.toLowerCase()}`}>
+                    <Link className="w-full h-full inline-block" to={`/${borderCountry.name.common.toLowerCase()}`}>
                       {borderCountry.name.common}
                     </Link>
                   </button>

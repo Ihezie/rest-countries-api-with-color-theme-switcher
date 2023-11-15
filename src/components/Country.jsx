@@ -10,7 +10,6 @@ const Country = ({ country }) => {
   } = country;
   const navigate = useNavigate();
   const handleClick = (countryName) => {
-    console.log(countryName);
     navigate(countryName)
   };
 
