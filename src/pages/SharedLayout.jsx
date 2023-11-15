@@ -9,7 +9,6 @@ const SharedLayout = () => {
 
     useEffect(() => {
       fetchData(url);
-      console.log('shared layout ran');
     }, []);
   return (
     <>

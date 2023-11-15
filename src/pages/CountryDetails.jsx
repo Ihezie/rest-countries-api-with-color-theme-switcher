@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { useAppData } from "../AppProvider";
-import useFetchData from "../useFetchData";
 import { useEffect } from "react";
 import loadingGif from "../assets/Rolling-1s-197px (1).gif";
 
@@ -12,13 +11,6 @@ const CountryDetails = () => {
     state: { countryDetails, data, loading },
     dispatch,
   } = useAppData();
-  // const url = "https://restcountries.com/v3.1/all";
-  // const fetchData = useFetchData();
-
-  // useEffect(() => {
-  //   fetchData(url);
-  // }, []);
-  console.log(useAppData());
 
   useEffect(() => {
     if (!loading) {
@@ -115,25 +107,36 @@ const CountryDetails = () => {
               </Detail>
             </ul>
           </div>
-          <h2 className="text-2xl font-semibold mb-4 mr-4 dark:text-white xl:inline-block">
+          <h2
+            className={`text-2xl font-semibold mb-4 mr-4 dark:text-white xl:inline-block ${
+              borders ? "block" : "inline-block"
+            }`}
+          >
             Border Countries:
           </h2>
-          <ul className="flex flex-wrap gap-3 xl:inline-flex">
-            {borders?.map((border, index) => {
-              const borderCountry = data.find(
-                (country) => country.cca3 === border
-              );
-              return (
-                <li key={index}>
-                  <button className="details-btn">
-                    <Link className="w-full h-full inline-block" to={`/${borderCountry.name.common.toLowerCase()}`}>
-                      {borderCountry.name.common}
-                    </Link>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          {borders ? (
+            <ul className="flex flex-wrap gap-3 xl:inline-flex">
+              {borders.map((border, index) => {
+                const borderCountry = data.find(
+                  (country) => country.cca3 === border
+                );
+                return (
+                  <li key={index}>
+                    <button className="details-btn">
+                      <Link
+                        className="w-full h-full inline-block"
+                        to={`/${borderCountry.name.common.toLowerCase()}`}
+                      >
+                        {borderCountry.name.common}
+                      </Link>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <span className="dark:text-white">None</span>
+          )}
         </div>
       </section>
     </main>
