@@ -1,0 +1,154 @@
+import { useParams, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
+import { useAppData } from "../AppProvider";
+import useFetchData from "../useFetchData";
+import { useEffect } from "react";
+import loadingGif from "../assets/Rolling-1s-197px (1).gif";
+
+const CountryDetails = () => {
+  const { countryName } = useParams();
+  const {
+    state: { countryDetails, data, loading },
+    dispatch,
+  } = useAppData();
+  const url = "https://restcountries.com/v3.1/all";
+  const fetchData = useFetchData();
+
+  useEffect(() => {
+    fetchData(url);
+  }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      dispatch({ type: "GET COUNTRY DETAILS", payload: countryName });
+    }
+  }, [countryName, loading]);
+
+  if (!countryDetails) {
+    return (
+      <main>
+        <div>
+          <img src={loadingGif} alt="loading" className="mx-auto mt-32" />
+        </div>
+      </main>
+    );
+  }
+  if (countryDetails === "not found") {
+    return (
+      <main className="mt-32 px-[8%] uppercase pb-16 sm:px-[12%] lg:px-[5%] max-w-[1700px] mx-auto text-center">
+        <h1 className="font-extrabold text-2xl dark:text-white">Oops, country not found</h1>
+        <Link to="/" className="text-[16px] details-btn mt-8 inline-block">
+          Back to home
+        </Link>
+      </main>
+    );
+  }
+
+  const {
+    name: { common, nativeName },
+    population,
+    region,
+    capital,
+    subregion,
+    flags: { alt, png },
+    tld,
+    currencies,
+    languages,
+    borders,
+  } = countryDetails;
+
+  return (
+    <main className="mt-12 px-[8%] text-[16px] pb-16 sm:px-[12%] lg:px-[5%] max-w-[1700px] mx-auto">
+      <button className="details-btn mb-16 w-28">
+        <Link to="/">
+          <FontAwesomeIcon
+            icon={faArrowLeftLong}
+            className="dark:white-icon mr-4"
+          />
+          Back
+        </Link>
+      </button>
+      <section className="flex flex-col gap-14 lg:grid lg:grid-cols-2 xl:items-center">
+        <img src={png} alt={alt} className="w-full" />
+        <div>
+          <h2 className="text-3xl font-extrabold dark:text-white">{common}</h2>
+          <div className="mt-2 flex flex-col gap-10 mb-8 xl:grid xl:grid-cols-2">
+            <ul>
+              <Detail detailName="Native Name(s)">
+                {Object.entries(nativeName).map(([, nativeNames], index) => {
+                  const length = Object.keys(nativeName).length;
+                  if (length > 1 && index !== length - 1) {
+                    return nativeNames.common + ", ";
+                  }
+                  return nativeNames.common;
+                })}
+              </Detail>
+              <Detail detailName="population">{population}</Detail>
+              <Detail detailName="region">{region}</Detail>
+              <Detail detailName="sub region">{subregion}</Detail>
+              <Detail detailName="capital">{capital}</Detail>
+            </ul>
+
+            <ul>
+              <Detail detailName="top level domain">{tld[0]}</Detail>
+              <Detail detailName="currencies">
+                {Object.entries(currencies).map(([, currency], index) => {
+                  const length = Object.keys(currencies).length;
+                  if (length > 1 && index !== length - 1) {
+                    return `${currency.name} (${currency.symbol}), `;
+                  }
+                  return `${currency.name} (${currency.symbol})`;
+                })}
+              </Detail>
+              <Detail detailName="languages">
+                {Object.entries(languages).map(([, language], index) => {
+                  const length = Object.keys(languages).length;
+                  if (length > 1 && index !== length - 1) {
+                    return language + ", ";
+                  }
+                  return language;
+                })}
+              </Detail>
+            </ul>
+          </div>
+          <h2 className="text-2xl font-semibold mb-4 mr-4 dark:text-white xl:inline-block">
+            Border Countries:
+          </h2>
+          <ul className="flex flex-wrap gap-3 xl:inline-flex">
+            {borders.map((border, index) => {
+              const borderCountry = data.find(
+                (country) => country.cca3 === border
+              );
+              return (
+                <li key={index}>
+                  <button className="details-btn">
+                    <Link to={`/${borderCountry.name.common.toLowerCase()}`}>
+                      {borderCountry.name.common}
+                    </Link>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+    </main>
+  );
+};
+export default CountryDetails;
+
+const Detail = ({ detailName, children }) => {
+  return (
+    <li className=" leading-9 dark:text-white dark:font-normal">
+      <span
+        className={`font-semibold dark:text-white ${
+          detailName === "Native Name(s)" ? "" : "capitalize"
+        }`}
+      >
+        {detailName}:{" "}
+      </span>
+      {children}
+    </li>
+  );
+};
