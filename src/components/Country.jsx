@@ -28,7 +28,7 @@ const Country = ({ country }) => {
         <ul>
           <li className="font-semibold leading-7 dark:text-white dark:font-normal">
             <span className="font-extrabold dark:text-white">Population: </span>
-            {population}
+            {population.toLocaleString()}
           </li>
           <li className="font-semibold leading-7 dark:text-white dark:font-normal">
             <span className="font-extrabold dark:text-white">Region: </span>

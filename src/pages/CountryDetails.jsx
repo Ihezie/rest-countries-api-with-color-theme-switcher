@@ -2,21 +2,55 @@ import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { useAppData } from "../AppProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import loadingGif from "../assets/Rolling-1s-197px (1).gif";
 
 const CountryDetails = () => {
   const { countryName } = useParams();
+  const [countryDetails, setCountryDetails] = useState(null);
   const {
-    state: { countryDetails, data, loading },
-    dispatch,
+    state: { data, loading },
   } = useAppData();
 
   useEffect(() => {
     if (!loading) {
-      dispatch({ type: "GET COUNTRY DETAILS", payload: countryName });
+      const country =
+        data.find(
+          (country) =>
+            country.name.common.toLowerCase() === countryName.toLowerCase()
+        ) || "not found";
+      setCountryDetails(country);
     }
   }, [countryName, loading]);
+
+  const displayDetailsInObjects = (detailsObject, ...properties) => {
+    if (detailsObject) {
+      return Object.entries(detailsObject).map((item, index) => {
+        const itemProperty = item[1];
+        const length = Object.keys(detailsObject).length;
+        if (length > 1 && index !== length - 1) {
+          return properties.length > 0
+            ? properties.map((property) => {
+                if (property === "symbol") {
+                  return ` (${itemProperty[property]}) `;
+                }
+                return `${itemProperty[property]}, `;
+              })
+            : `${itemProperty}, `;
+        }
+        return properties.length > 0
+          ? properties.map((property) => {
+              if (property === "symbol") {
+                return ` (${itemProperty[property]}) `;
+              }
+              return `${itemProperty[property]} `;
+            })
+          : itemProperty;
+      });
+    } else {
+      return null;
+    }
+  };
 
   if (!countryDetails) {
     return (
@@ -71,15 +105,11 @@ const CountryDetails = () => {
           <div className="mt-2 flex flex-col gap-10 mb-8 xl:grid xl:grid-cols-2">
             <ul>
               <Detail detailName="Native Name(s)">
-                {Object.entries(nativeName).map(([, nativeNames], index) => {
-                  const length = Object.keys(nativeName).length;
-                  if (length > 1 && index !== length - 1) {
-                    return nativeNames.common + ", ";
-                  }
-                  return nativeNames.common;
-                })}
+                {displayDetailsInObjects(nativeName, "common")}
               </Detail>
-              <Detail detailName="population">{population}</Detail>
+              <Detail detailName="population">
+                {population.toLocaleString()}
+              </Detail>
               <Detail detailName="region">{region}</Detail>
               <Detail detailName="sub region">{subregion}</Detail>
               <Detail detailName="capital">{capital}</Detail>
@@ -88,22 +118,10 @@ const CountryDetails = () => {
             <ul>
               <Detail detailName="top level domain">{tld[0]}</Detail>
               <Detail detailName="currencies">
-                {Object.entries(currencies).map(([, currency], index) => {
-                  const length = Object.keys(currencies).length;
-                  if (length > 1 && index !== length - 1) {
-                    return `${currency.name} (${currency.symbol}), `;
-                  }
-                  return `${currency.name} (${currency.symbol})`;
-                })}
+                {displayDetailsInObjects(currencies, "name", "symbol")}
               </Detail>
               <Detail detailName="languages">
-                {Object.entries(languages).map(([, language], index) => {
-                  const length = Object.keys(languages).length;
-                  if (length > 1 && index !== length - 1) {
-                    return language + ", ";
-                  }
-                  return language;
-                })}
+                {displayDetailsInObjects(languages)}
               </Detail>
             </ul>
           </div>
@@ -154,7 +172,7 @@ const Detail = ({ detailName, children }) => {
       >
         {detailName}:{" "}
       </span>
-      {children}
+      {children || "None"}
     </li>
   );
 };

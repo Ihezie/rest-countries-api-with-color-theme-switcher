@@ -7,7 +7,6 @@ const initialState = {
   region: "",
   loading: true,
   searchParam: "",
-  countryDetails: null,
 };
 
 const AppProvider = ({ children }) => {
