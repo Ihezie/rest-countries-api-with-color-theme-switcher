@@ -4,7 +4,7 @@ const AppContext = createContext();
 
 const initialState = {
   data: [],
-  region: "",
+  region: "none",
   loading: true,
   searchParam: "",
 };

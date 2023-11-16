@@ -10,14 +10,14 @@ const Country = ({ country }) => {
   } = country;
   const navigate = useNavigate();
   const handleClick = (countryName) => {
-    navigate(countryName)
+    navigate(countryName);
   };
 
   return (
     <article
       className="rounded-lg mx-auto overflow-hidden shadow-xl w-full max-w-sm cursor-pointer hover:translate-y-[-16px] dark:shadow-black dark:bg-darkBlue md:mx-0 md:max-w-none"
       onClick={() => {
-        handleClick(common)
+        handleClick(common);
       }}
     >
       <img src={png} alt={alt} className="h-[165px] object-cover w-full" />
@@ -36,7 +36,7 @@ const Country = ({ country }) => {
           </li>
           <li className="font-semibold leading-7 dark:text-white dark:font-normal">
             <span className="font-extrabold dark:text-white">Capital: </span>
-            {capital}
+            {capital || "None"}
           </li>
         </ul>
       </div>

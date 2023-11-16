@@ -1,14 +1,26 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useAppData } from "../AppProvider";
 
 const SelectRegion = () => {
-  const regions = ["africa", "america", "asia", "europe", "oceania", "none"];
+  const regions = [
+    "africa",
+    "antarctic",
+    "americas",
+    "asia",
+    "europe",
+    "oceania",
+    "none",
+  ];
   const [expanded, setExpanded] = useState(false);
-  const [region, setRegion] = useState("none");
+  const {
+    state: { region },
+    dispatch,
+  } = useAppData();
 
   return (
-    <div className="mt-12 ml-[5%] relative w-[235px] font-semibold md:mt-0 md:ml-0">
+    <div className="mt-12 ml-[5%] relative w-[235px] font-semibold z-10 md:mt-0 md:ml-0">
       <button
         className="bg-white w-full h-16 shadow-md rounded-lg text-left px-8 flex items-center justify-between dark:bg-darkBlue dark:shadow-lg dark:shadow-black/75"
         role="combobox"
@@ -55,7 +67,7 @@ const SelectRegion = () => {
               value={region}
               className="absolute peer opacity-0 z-40"
               onChange={(e) => {
-                setRegion(e.target.value);
+                dispatch({ type: "FILTER BY REGION", payload: e.target.value });
               }}
             />
             <label

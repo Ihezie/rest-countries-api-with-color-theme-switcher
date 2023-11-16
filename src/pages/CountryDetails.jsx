@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { useAppData } from "../AppProvider";
@@ -62,16 +62,7 @@ const CountryDetails = () => {
     );
   }
   if (countryDetails === "not found") {
-    return (
-      <main className="mt-32 px-[8%] uppercase pb-16 sm:px-[12%] lg:px-[5%] max-w-[1700px] mx-auto text-center">
-        <h1 className="font-extrabold text-2xl dark:text-white">
-          Oops, country not found
-        </h1>
-        <Link to="/" className="text-[16px] details-btn mt-8 inline-block">
-          Back to home
-        </Link>
-      </main>
-    );
+    return <Navigate to="/404" />;
   }
 
   const {
