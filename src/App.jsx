@@ -13,8 +13,9 @@ function App() {
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Countries />} />
             <Route path="/:countryName" element={<CountryDetails />} />
+            <Route path="*" element={<Error />} />
+            <Route path="error" element={<Error />} />
           </Route>
-          <Route path="*" element={<Error />} />
         </Routes>
       </AppProvider>
     </BrowserRouter>

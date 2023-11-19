@@ -25,7 +25,7 @@ const SearchBar = () => {
         type="text"
         id="search-bar"
         placeholder="Search for a country..."
-        className="ml-8 w-full outline-none font-semibold bg-transparent dark:placeholder:text-white/75"
+        className="ml-8 w-full outline-none font-semibold !bg-transparent dark:placeholder:text-white/75"
       />
     </div>
   );

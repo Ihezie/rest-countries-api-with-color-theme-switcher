@@ -1,6 +1,7 @@
 import SearchBar from "../components/SearchBar";
 import SelectRegion from "../components/SelectRegion";
 import Country from "../components/Country";
+import NotFound from "../components/NotFound";
 import { useAppData } from "../AppProvider";
 import loadingGif from "../assets/Rolling-1s-197px (1).gif";
 import { useState, useEffect } from "react";
@@ -14,28 +15,26 @@ const Countries = () => {
 
   useEffect(() => {
     if (!loading) {
-      const filteredData =
-        data.filter((country) => {
-          if (region === "none") {
-            return true;
-          }
-          return country.region.toLowerCase() === region;
-        }) || "no match";
-      setLocalData(filteredData);
+      const filteredData = data.filter((country) => {
+        let inRegion = false;
+        let matchesSearch = false;
+        if (region === "none") {
+          inRegion = true;
+        } else {
+          inRegion = country.region.toLowerCase() === region;
+        }
+        if (searchParam === "") {
+          matchesSearch = true;
+        } else {
+          matchesSearch = country.name.common
+            .toLowerCase()
+            .includes(searchParam.toLowerCase());
+        }
+        return inRegion && matchesSearch;
+      });
+      setLocalData(filteredData.length === 0 ? "no match" : filteredData);
     }
-  }, [loading, region]);
-
-  if (localData === "no match") {
-    return (
-      <main className="max-w-[1700px] mx-auto pb-16">
-        <div className="mt-8 md:flex md:mx-[5%] md:justify-between">
-          <SearchBar />
-          <SelectRegion />
-        </div>
-        <div>No match found!</div>
-      </main>
-    );
-  }
+  }, [loading, region, searchParam]);
 
   return (
     <main className="max-w-[1700px] mx-auto pb-16">
@@ -47,8 +46,10 @@ const Countries = () => {
         <div>
           <img src={loadingGif} alt="loading" className="mx-auto mt-32" />
         </div>
+      ) : localData === "no match" ? (
+        <NotFound />
       ) : (
-        <section className="mt-12 grid grid-cols-countries justify-between gap-16 px-[13%] sm:px-[5%] md:max-xl:grid-cols-countries-md">
+        <section className="mt-12 grid grid-cols-countries justify-center gap-16 !p-5per px-[13%] sm:px-[5%] md:max-xl:grid-cols-countries-md">
           {localData.map((country, index) => (
             <Country key={index} country={country} />
           ))}

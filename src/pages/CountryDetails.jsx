@@ -61,8 +61,9 @@ const CountryDetails = () => {
       </main>
     );
   }
+
   if (countryDetails === "not found") {
-    return <Navigate to="/404" />;
+    return <Navigate to="/error" replace />;
   }
 
   const {
@@ -93,7 +94,7 @@ const CountryDetails = () => {
         <img src={png} alt={alt} className="w-full" />
         <div>
           <h2 className="text-3xl font-extrabold dark:text-white">{common}</h2>
-          <div className="mt-2 flex flex-col gap-10 mb-8 xl:grid xl:grid-cols-2">
+          <div className="mt-2 flex flex-col gap-10 mb-8 md:grid md:grid-cols-2">
             <ul>
               <Detail detailName="Native Name(s)">
                 {displayDetailsInObjects(nativeName, "common")}

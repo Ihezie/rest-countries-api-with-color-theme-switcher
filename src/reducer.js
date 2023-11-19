@@ -1,8 +1,9 @@
 // const initialState = {
 //   data: [],
-//   region: "",
-//   searchParam: "",
+//   region: "none",
 //   loading: true,
+//   searchParam: "",
+//   error: false,
 // };
 export default function reducer(state, { type, payload }) {
   switch (type) {
@@ -11,6 +12,7 @@ export default function reducer(state, { type, payload }) {
         ...state,
         loading: false,
         data: payload,
+        error: false,
       };
     case "FILTER BY REGION":
       return {
@@ -22,6 +24,11 @@ export default function reducer(state, { type, payload }) {
         ...state,
         searchParam: payload,
       };
+    case "ERROR":
+      return {
+        ...state,
+        error: true
+      }
     default:
       throw new Error("Unrecognized action type");
   }

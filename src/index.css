@@ -55,8 +55,16 @@
     .white-icon path {
         @apply text-white
     }
+    .red-icon path{
+        @apply text-red-500
+    }
 
     .details-btn {
         @apply min-w-[90px] px-2 bg-white py-[5px] rounded shadow-md cursor-pointer font-semibold hover:shadow-lg hover:translate-y-[-5px] dark:bg-darkBlue dark:text-white dark:shadow-black
+    }
+    @media screen and (max-width: 340px) {
+        .p-5per{
+            padding: 0 5%;
+        }
     }
 }

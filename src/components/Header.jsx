@@ -24,7 +24,7 @@ const Header = () => {
   }, [darkMode]);
   
   return (
-    <header className="flex justify-between h-24 items-center px-[5%] bg-white max-w-[1700px] mx-auto shadow-md dark:bg-darkBlue dark:text-white dark:shadow-lg dark:shadow-black/75">
+    <header className="sticky top-0 right-0 left-0 z-20 flex justify-between h-24 items-center px-[5%] bg-white max-w-[1700px] mx-auto shadow-md dark:bg-darkBlue dark:text-white dark:shadow-lg dark:shadow-black/75">
       <h1 className="font-extrabold md:text-2xl lg:text-3xl dark:text-white">
         <Link to="/">Where in the world?</Link>
       </h1>
