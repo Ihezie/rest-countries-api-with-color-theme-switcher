@@ -20,7 +20,7 @@ const Country = ({ country }) => {
         handleClick(common);
       }}
     >
-      <img src={png} alt={alt} className="h-[165px] object-cover w-full" />
+      <img src={png} alt={alt || 'flag'} className="h-[165px] object-cover w-full" />
       <div className="px-8 pt-8 pb-12">
         <h2 className="font-extrabold text-[20px] mb-3 dark:text-white">
           {common}
