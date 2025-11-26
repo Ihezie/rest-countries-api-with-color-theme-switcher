@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceFrown } from "@fortawesome/free-solid-svg-icons";
 
 const SharedLayout = () => {
-  const url = "https://restcountries.com/v3.1/all";
+  const url =
+    "https://restcountries.com/v3.1/all?fields=name,population,region,capital,subregion,flags,cca3,currencies,languages,borders";
   const fetchData = useFetchData();
   const {
     state: { error },

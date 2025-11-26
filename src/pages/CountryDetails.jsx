@@ -73,7 +73,6 @@ const CountryDetails = () => {
     capital,
     subregion,
     flags: { alt, png },
-    tld,
     currencies,
     languages,
     borders,
@@ -108,7 +107,6 @@ const CountryDetails = () => {
             </ul>
 
             <ul>
-              <Detail detailName="top level domain">{tld[0]}</Detail>
               <Detail detailName="currencies">
                 {displayDetailsInObjects(currencies, "name", "symbol")}
               </Detail>
@@ -135,9 +133,9 @@ const CountryDetails = () => {
                     <button className="details-btn">
                       <Link
                         className="w-full h-full inline-block"
-                        to={`/${borderCountry.name.common.toLowerCase()}`}
+                        to={`/${borderCountry.name?.common?.toLowerCase()}`}
                       >
-                        {borderCountry.name.common}
+                        {borderCountry?.name?.common}
                       </Link>
                     </button>
                   </li>
