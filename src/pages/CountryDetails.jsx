@@ -122,7 +122,7 @@ const CountryDetails = () => {
           >
             Border Countries:
           </h2>
-          {borders ? (
+          {borders.length > 0 ? (
             <ul className="flex flex-wrap gap-3 xl:inline-flex">
               {borders.map((border, index) => {
                 const borderCountry = data.find(
